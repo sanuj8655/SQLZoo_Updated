@@ -1,4 +1,4 @@
-SELECT BASIC
+//////////////SELECT BASIC\\\\\\\\\\\\\\\\\\\\
 
 1.SELECT population FROM world
   WHERE name = 'GERMANY'
@@ -9,7 +9,7 @@ SELECT BASIC
 3.SELECT name, area FROM world
   WHERE area BETWEEN 200000 AND 250000 ;
   
-SELECT from WORLD Tutorial
+/////////////SELECT from WORLD Tutorial\\\\\\\\\\\\\\\\
 
 1.SELECT name, continent, population FROM world;
 
@@ -40,7 +40,7 @@ WHERE population > 200000000;
    FROM world
 WHERE name LIKE '%a%' and name like '%e%' and name like '%i%' and name like '%o%' and name like '%u%' and not name like '% %';
 
-SELECT from Nobel Tutorial
+////////////////SELECT from Nobel Tutorial\\\\\\\\\\\\\\\\\\
 
 1. SELECT yr, subject, winner FROM nobel WHERE yr = 1950; 
 
@@ -72,7 +72,7 @@ SELECT from Nobel Tutorial
 
 13.select winner,yr,subject from nobel where winner like 'Sir%' order by yr desc, winner
 
-SELECT within SELECT Tutorial
+////////////////////SELECT within SELECT Tutorial\\\\\\\\\\\\\
 
 1. select name from world where population > (select population from world where name='Russia')
 
@@ -92,7 +92,7 @@ SELECT within SELECT Tutorial
 
 9.  
 
-SUM and COUNT
+///////////////////SUM and COUNT\\\\\\\\\\\\\\\\\\\\
 
 1. SELECT SUM(population) FROM world;
 
@@ -110,7 +110,7 @@ SUM and COUNT
 
 8. select continent from world group by continent having sum(population) >= 100000000;
 
-The JOIN operation
+/////////////////The JOIN operation\\\\\\\\\\\\\\\\\
 
 1. SELECT matchid, player from goal where teamid = 'GER';
 
@@ -139,7 +139,7 @@ The JOIN operation
 13. select mdate, team1,sum(case when teamid = team1 then 1 else 0 end) as score1,team2,sum(case when teamid = team2 then 1 else 0 end) as score2 from game left join goal on game.id = goal.matchid group by mdate,team1,team2 order by mdate,matchid,team1,team2  
  
  
-More joins
+/////////////More joins\\\\\\\\\\\\\
 
 1.SELECT id, title FROM movie WHERE yr=1962;
 
@@ -172,7 +172,7 @@ More joins
 15. select a.name from  actor as a join casting as c on a.id = c.actorid where c.movieid in (select movieid from casting where actorid  = (select id from actor where name = 'Art Garfunkel')) and actorid != 1112
 
 
-////////////using NULL
+////////////using NULL\\\\\\\\\\\\\
 
 1. select name from teacher where dept is null
 
@@ -194,7 +194,7 @@ More joins
 
 10. select name, case when dept = 1 or dept = 2 then 'Sci' when dept = 3 then 'Art' else 'None' end from teacher 
 
-///////////nss tutorial
+///////////nss tutorial\\\\\\\\\\\\\
 
 1. SELECT sum(A_STRONGLY_AGREE)  FROM nss WHERE question='Q01' AND institution='Edinburgh Napier University' AND subject='(8) Computer Science'
 
@@ -239,7 +239,6 @@ WHERE question='Q22'
 AND (institution LIKE '%Manchester%')
 GROUP BY institution
 
-
  
 8. SELECT institution, SUM(sample), 
 (SELECT sample FROM nss y
@@ -251,7 +250,7 @@ WHERE question='Q01'
 AND (institution LIKE '%Manchester%')
 GROUP BY institution;
 
-////////Window functions
+////////Window functions\\\\\\\\
 
 1. SELECT lastName, party, votes
   FROM ge
@@ -291,7 +290,7 @@ FROM (SELECT constituency,
                votes DESC) a
 WHERE RANK = 1
 
-////////////window lag
+////////////window lag\\\\\\\\\\\\\\\\
 
 1. select name, day(whn),
 confirmed, deaths, recovered
