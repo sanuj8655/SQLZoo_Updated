@@ -1,0 +1,352 @@
+SELECT BASIC
+
+1.SELECT population FROM world
+  WHERE name = 'GERMANY'
+  
+2.SELECT name, population FROM world
+  WHERE name IN ('Sweden', 'Norway','Denmark');
+  
+3.SELECT name, area FROM world
+  WHERE area BETWEEN 200000 AND 250000 ;
+  
+SELECT from WORLD Tutorial
+
+1.SELECT name, continent, population FROM world;
+
+2.SELECT name FROM world
+WHERE population > 200000000;
+
+3.select name, gdp/population as per_capita_gdp from world where population > 200000000;
+
+4.select name,population/1000000 as 'population in millions' from world where continent = 'South America';
+
+5.select name,population from world where name in ('France','Germany','Italy');
+
+6.select name from world where name like 'United%';
+
+7.select name,population, area from world where area>3000000 or population>250000000;
+
+8.select name,population,area from world where (area>3000000 and population<250000000) or (area<3000000 and population > 250000000);
+
+9.select name,round(population/1000000,2), round(gdp/1000000000,2) from world where continent = 'South America'; 
+
+10. select name, round((gdp/population), -3) from world where gdp > 1000000000000; 
+
+11. select name,capital from world where length(name)=length(capital);
+
+12.select name,capital from world where left(name,1)=left(capital,1) and (name<>capital);
+
+13. SELECT name
+   FROM world
+WHERE name LIKE '%a%' and name like '%e%' and name like '%i%' and name like '%o%' and name like '%u%' and not name like '% %';
+
+SELECT from Nobel Tutorial
+
+1. SELECT yr, subject, winner FROM nobel WHERE yr = 1950; 
+
+2. SELECT winner
+  FROM nobel
+ WHERE yr = 1962
+   AND subject = 'Literature'
+
+3. select yr,subject from nobel where winner= 'Albert Einstein';
+
+4. select winner from nobel where (subject = 'peace') and yr>=2000;
+
+5. select * from nobel where (subject = 'Literature') and (yr between 1980 and 1989);
+
+6. SELECT * FROM nobel
+ WHERE winner IN ('Theodore Roosevelt','Woodrow Wilson','Jimmy Carter','Barack Obama');
+
+7. select winner from nobel where winner like 'John%';
+
+8.select yr, subject, winner from nobel where (subject = 'physics' and yr = 1980) or (subject = 'chemistry' and yr = 1984);
+
+9. select yr,subject, winner from nobel where (yr = 1980) and (subject not in ('chemistry','Medicine'));
+
+10.select yr, subject, winner from nobel where (subject = 'Medicine' and  yr < 1910) or (subject = 'Literature' and  yr >= 2004);
+
+11. select * from nobel where winner = 'EUGENE O''NEILL';
+
+12. select winner,yr,subject from nobel where winner like 'Sir%'
+
+13.select winner,yr,subject from nobel where winner like 'Sir%' order by yr desc, winner
+
+SELECT within SELECT Tutorial
+
+1. select name from world where population > (select population from world where name='Russia')
+
+2. select name from world where continent = 'Europe' and gdp/population > (select gdp/population from world where name = 'United Kingdom');
+
+3. select name, continent from world where continent in (select continent from world where name = 'Argentina' or name = 'Australia' ) order by name;
+
+4. select name from world where population > (select population from world where name = 'canada') and population < (select population from world where name = 'poland');
+
+5. select name, concat(round(population/(select population from world where name = 'Germany')*100,0),'%') from world where continent = 'Europe';
+
+6. select name from world where gdp > all (select gdp from world where continent = 'Europe' and gdp > 0);
+
+7. SELECT continent, name, area FROM world x WHERE area >= ALL (SELECT area FROM world y WHERE y.continent=x.continent);
+
+8. select continent, name from world a where name in (select min(name) from world b where a.continent = b.continent );
+
+9.  
+
+SUM and COUNT
+
+1. SELECT SUM(population) FROM world;
+
+2. select distinct(continent) from world;
+
+3. select sum(gdp) from world where continent = 'Africa' ;
+
+4. select count(name) from world where area>=1000000;
+
+5.select sum(population) from world where name in ('Estonia', 'Latvia', 'Lithuania');
+
+6. select continent, count(name) from world group by continent;
+
+7.select continent,count(name) from world where population >= 10000000 group by continent;
+
+8. select continent from world group by continent having sum(population) >= 100000000;
+
+The JOIN operation
+
+1. SELECT matchid, player from goal where teamid = 'GER';
+
+2. SELECT id,stadium,team1,team2 FROM game where id = 1012;
+
+3. SELECT player,teamid, stadium, mdate FROM game JOIN goal ON (id = matchid) where teamid = 'GER';
+
+4.select team1,team2,player from game join goal on id=matchid where player like 'Mario%';
+
+5. SELECT player, teamid, coach, gtime FROM goal join eteam on teamid = id  WHERE gtime<=10;
+
+6. select mdate,teamname from game join eteam on team1 = eteam.id where coach = 'Fernando Santos';
+
+7. select player from goal join game on matchid = id where stadium = 'National Stadium, Warsaw';
+
+8.SELECT distinct player FROM goal JOIN game ON matchid = id  WHERE (team1='GER' or team2='GER') and teamid <> 'GER';
+
+9. select teamname, count(teamid) from goal join eteam on teamid = id group by teamname;
+
+10. select stadium, count(*) from game join goal on id = matchid group by  stadium;
+
+11.SELECT matchid, mdate ,count(*) FROM game JOIN goal ON matchid = id  WHERE (team1 = 'POL' OR team2 = 'POL') group by matchid,mdate;
+
+12. select matchid, mdate, count(*) from game join goal on id = matchid where teamid = 'GER' group by matchid,mdate;
+
+13. select mdate, team1,sum(case when teamid = team1 then 1 else 0 end) as score1,team2,sum(case when teamid = team2 then 1 else 0 end) as score2 from game left join goal on game.id = goal.matchid group by mdate,team1,team2 order by mdate,matchid,team1,team2  
+ 
+ 
+More joins
+
+1.SELECT id, title FROM movie WHERE yr=1962;
+
+2.select yr from movie where title = 'Citizen Kane';
+
+3.select id,title,yr from movie where title like '%Star trek%' order by yr;
+
+4.select id from actor where name = 'Glenn Close';
+
+5.select id from movie where title = 'Casablanca';
+
+6. select a.name from casting as c join actor as a on c.actorid= a.id where c.movieid = 11768;
+
+7. select a.name from casting as c join actor as a on c.actorid= a.id where c.movieid = 10522;
+
+8.select m.title from  movie as m join casting as c on m.id = c.movieid join actor as a on c.actorid = a.id where a.name = 'Harrison Ford';
+
+9. select m.title from  movie as m join casting as c on m.id = c.movieid join actor as a on c.actorid = a.id where a.name = 'Harrison Ford' and c.ord != 1;
+
+10. select m.title, a.name from  movie as m join casting as c on m.id = c.movieid join actor as a on c.actorid = a.id where m.yr = 1962 and c.ord = 1;
+
+11. SELECT yr,COUNT(title) FROM movie JOIN casting ON movie.id=movieid JOIN actor   ON actorid=actor.id WHERE name='Rock Hudson' GROUP BY yr HAVING COUNT(title) > 2;
+
+12. select title,name from movie join casting on (id = movieid and ord = 1) join actor on (actorid = actor.id) where movie.id in (select movieid from casting where actorid = (select id from actor where name = 'Julie Andrews'));
+
+13. select a.name from casting as c left join actor as a on c.actorid = a.id where c.ord = 1 group by a.name having count(a.name) >= 15 order by a.name
+
+14. select m.title, count(c.actorid) from movie as m inner join casting as c on m.id = c.movieid where m.yr = 1978 group by m.title order by count(c.actorid) desc, m.title;
+
+15. select a.name from  actor as a join casting as c on a.id = c.actorid where c.movieid in (select movieid from casting where actorid  = (select id from actor where name = 'Art Garfunkel')) and actorid != 1112
+
+
+////////////using NULL
+
+1. select name from teacher where dept is null
+
+2. SELECT teacher.name, dept.name FROM teacher INNER JOIN dept ON (teacher.dept=dept.id)
+		   
+3. select teacher.name, dept.name from teacher left join dept on teacher.dept = dept.id
+
+4.select teacher.name, dept.name from teacher right join dept on teacher.dept = dept.id
+
+5.select name, coalesce(mobile, '07986 444 2266') from teacher
+
+6.select teacher.name, coalesce(dept.name, 'None') from teacher left join dept on teacher.dept = dept.id
+
+7.select count(name), count(mobile) from teacher
+
+8.select dept.name,count(dept) from teacher right join dept on teacher.dept = dept.id group by dept.name
+
+9.select name, case when dept = 1 or dept = 2 then 'Sci' else 'Art' end from teacher 
+
+10. select name, case when dept = 1 or dept = 2 then 'Sci' when dept = 3 then 'Art' else 'None' end from teacher 
+
+///////////nss tutorial
+
+1. SELECT sum(A_STRONGLY_AGREE)  FROM nss WHERE question='Q01' AND institution='Edinburgh Napier University' AND subject='(8) Computer Science'
+
+2. SELECT institution, subject
+  FROM nss
+ WHERE question='Q15'
+   and score >= 100
+   
+3. SELECT institution,score
+  FROM nss
+ WHERE question='Q15'
+   AND subject='(8) Computer Science'
+   and score < 50
+   
+4. SELECT subject, sum(response)
+from nss
+where question = 'Q22'
+and subject = '(8) Computer Science' 
+or question = 'Q22'
+and subject = '(H) Creative Arts and Design'
+group by subject
+
+5. select subject,  sum((A_STRONGLY_AGREE*response)/100)
+from nss
+where question = 'Q22'
+and subject = '(8) Computer Science' 
+or question = 'Q22'
+and subject = '(H) Creative Arts and Design'
+group by subject 
+
+6. select subject, ROUND(SUM(response*A_STRONGLY_AGREE/100)/SUM(response)*100,0)
+from nss
+where question = 'Q22'
+and subject = '(8) Computer Science' 
+or question = 'Q22'
+and subject = '(H) Creative Arts and Design'
+group by subject
+
+7. SELECT institution, ROUND(SUM(response*score/100)/SUM(response)*100,0)
+FROM nss
+WHERE question='Q22'
+AND (institution LIKE '%Manchester%')
+GROUP BY institution
+
+
+ 
+8. SELECT institution, SUM(sample), 
+(SELECT sample FROM nss y
+WHERE subject='(8) Computer Science'
+AND x.institution = y.institution
+AND question='Q01') AS comp
+FROM nss x
+WHERE question='Q01'
+AND (institution LIKE '%Manchester%')
+GROUP BY institution;
+
+////////Window functions
+
+1. SELECT lastName, party, votes
+  FROM ge
+ WHERE constituency = 'S14000024' AND yr = 2017
+ORDER BY votes DESC
+
+2. select party, votes, rank() over(order by votes desc)
+from ge
+where constituency = 'S14000024 '
+and yr = 2017
+order by party
+
+3. SELECT yr,party, votes,
+      RANK() OVER (PARTITION BY yr ORDER BY votes DESC) as posn
+  FROM ge
+ WHERE constituency = 'S14000021'
+ORDER BY party,yr
+ORDER BY institution
+
+4. select constituency, party, votes,
+rank() over(partition by constituency order by votes desc) as posn
+from ge
+where yr = 2017
+and constituency between 'S14000021' and 'S14000026'
+order by posn,constituency
+
+5. SELECT constituency,
+       party
+FROM (SELECT constituency,
+             party,
+             votes,
+             RANK() OVER (PARTITION BY constituency ORDER BY votes DESC) AS RANK
+      FROM ge
+      WHERE constituency BETWEEN 'S14000021' AND 'S14000026'
+      AND   yr = 2017
+      ORDER BY constituency,
+               votes DESC) a
+WHERE RANK = 1
+
+////////////window lag
+
+1. select name, day(whn),
+confirmed, deaths, recovered
+from covid where 
+name = 'Spain'
+and month(whn) = 03 
+
+2. SELECT name, DAY(whn), confirmed,
+   LAG(confirmed, 1) OVER (ORDER BY whn)
+ FROM covid
+WHERE name = 'Italy'
+AND MONTH(whn) = 3
+ORDER BY whn
+
+3.SELECT name, DAY(whn), confirmed - LAG(confirmed, 1) OVER (ORDER BY whn)
+ FROM covid
+WHERE name = 'Italy'
+AND MONTH(whn) = 3
+ORDER BY whn
+
+4.SELECT name, DATE_FORMAT(whn,'%Y-%m-%d'),  confirmed - LAG(confirmed, 1) OVER (ORDER BY whn)
+ FROM covid
+WHERE name = 'Italy'
+AND WEEKDAY(whn) = 0
+ORDER BY whn
+
+5. SELECT name, DATE_FORMAT(whn,'%Y-%m-%d'), 
+ confirmed - LAG(confirmed, 1) OVER (ORDER BY whn)
+ FROM covid 
+WHERE name = 'Italy'
+and WEEKDAY(whn) = 0
+ORDER BY whn
+
+6. SELECT 
+   name,
+   confirmed,
+   RANK() OVER (ORDER BY confirmed DESC) rc,
+   deaths, rank() over(order by deaths desc) rd
+  FROM covid
+WHERE whn = '2020-04-20'
+ORDER BY confirmed DESC
+
+7. SELECT 
+   world.name,
+   ROUND(100000*confirmed/population,0),
+rank() over(order by confirmed/population)
+  FROM covid JOIN world ON covid.name=world.name
+WHERE whn = '2020-04-20' AND population >= 10000000
+ORDER BY population DESC
+
+
+8. select name, date,max(dc) from 
+(SELECT name, DATE_FORMAT(whn,'%Y-%m-%d') as date, 
+ Lead(confirmed, 1) OVER (partition by name ORDER BY whn) - confirmed as dc
+ FROM covid) as a
+where a.dc >= 1000
+group by name
+order by date 
